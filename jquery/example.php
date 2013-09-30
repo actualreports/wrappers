@@ -1,7 +1,7 @@
 <?php
   // NB!  jQuery Wrapper depends on PHP wrapper
   require_once '../php/ActualReportsApi.php';
-  require_once '../php/ActualReportsPlugin.php';
+  require_once 'ActualReportsPlugin.php';
 
   $config = array(
     'url' => 'https://app.actualreports.com/api',
