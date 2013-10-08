@@ -26,13 +26,12 @@ class ActualReportsException extends ErrorException {}
 
 class ActualReportsApi
 {
-  const USER_AGENT = 'actualreports-php/2.0.0';
-
-  public $url = 'https://dev.actualreports.com/api';
-  public $version = 'v2';
-  public $apiKey;
-  public $privateKey;
-  public $email;
+  protected $url = 'https://dev.actualreports.com/api';
+  protected $version = 'v2';
+  protected $apiKey;
+  protected $privateKey;
+  protected $email;
+  protected $data;
 
   public $curlopts = array(
     CURLOPT_HEADER => true,
@@ -43,7 +42,14 @@ class ActualReportsApi
     CURLOPT_HTTPAUTH => CURLAUTH_ANY,
     CURLOPT_SSL_VERIFYPEER => false,
     CURLOPT_SSL_VERIFYHOST => false,
-    CURLOPT_FOLLOWLOCATION => false
+    CURLOPT_FOLLOWLOCATION => false,
+    CURLOPT_HTTPHEADER => array(
+      CURLOPT_USERAGENT => 'actualreports-php/2.0.0',
+      CURLOPT_HTTPHEADER => array(
+        'Accept-Charset: utf-8',
+        'Content-Type: application/json'
+      )
+    )
   );
 
   public function __construct($apiKey = null, $privateKey = null)
@@ -99,6 +105,16 @@ class ActualReportsApi
   }
 
   /**
+   * Set data
+   *
+   * @param array $data
+   */
+  public function setData($data)
+  {
+    $this->data = $data;
+  }
+
+  /**
    * Set version
    * @param string $version v1 or v2
    */
@@ -131,14 +147,12 @@ class ActualReportsApi
   public function request($method = 'get', $resource, $params = array(), $stripMeta = true)
   {
     $response = null;
-    if ($method === 'get')
+    if (isset($params['data']))
     {
-      $response = $this->makeRequest($this->createUrl($resource, $params), array(), $method);
+      $this->data = $params['data'];
+      unset($params['data']);
     }
-    else
-    {
-      $response = $this->makeRequest($this->createUrl($resource), $params, $method);
-    }
+    $response = $this->makeRequest($this->createUrl($resource, $params), $method);
 
     list($code, $headers, $content) = $response;
     $content = json_decode($content, true);
@@ -188,23 +202,15 @@ class ActualReportsApi
    * Bits and pieces from  TinyHttp from https://gist.github.com/618157.
    * Copyright 2011, Neuman Vong. BSD License.
    */
-  protected function makeRequest($url, $params = array(), $method = 'get')
+  protected function makeRequest($url, $method = 'get')
   {
     $opts = $this->curlopts;
     $opts[CURLOPT_URL] = $url;
-    $opts[CURLOPT_HTTPHEADER] = array(
-      CURLOPT_USERAGENT => self::USER_AGENT,
-      CURLOPT_HTTPHEADER => array(
-        'Accept-Charset: utf-8',
-        'Content-Type: application/json'
-      )
-    );
 
     switch (strtolower($method))
     {
       case 'post':
-        if (!empty($params))
-          $opts[CURLOPT_POSTFIELDS] = $params;
+        $opts[CURLOPT_POSTFIELDS] = json_encode($this->data);
         break;
       case 'get':
         $opts[CURLOPT_HTTPGET] = true;
