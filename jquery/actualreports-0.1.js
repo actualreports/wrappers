@@ -93,12 +93,17 @@
 
     print: function()
     {
-      this.loadTempalteToIframe(this.options.endpoints.print, 'pdf', 'print');
+      this[this.isSafari() ? 'showTemplateInModal' : 'loadTempalteToIframe'](this.options.endpoints.print, 'pdf', 'print');
     },
 
     download: function(format)
     {
       this.loadTempalteToIframe(this.options.endpoints.download, format, 'download');
+    },
+
+    isSafari: function()
+    {
+      return $.browser.webkit && !window.chrome;
     },
 
     loadTemplates: function(refresh)
@@ -235,7 +240,7 @@
 
     showTemplateInModal: function(url, format, action)
     {
-      if (!this.beforeRequest({action: action}))
+      if (!this.beforeRequest({action: action, func: 'showTemplateInModal'}))
       {
         return ;
       }
@@ -246,7 +251,7 @@
 
     loadTempalteToIframe: function(url, format, action)
     {
-      if (!this.beforeRequest({action: action}))
+      if (!this.beforeRequest({action: action, func: 'loadTempalteToIframe'}))
       {
         return ;
       }

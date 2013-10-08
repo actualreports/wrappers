@@ -102,32 +102,32 @@ class ActualReportsPlugin
     }
 
     $client = $this->getClient();
+    $client->setData($this->data);
     $client->setEmail($this->email);
     return $client->request('post', 'template/'.$template.'/output', array_merge($params, array(
       'output' => 'base64',
-      'format' => $format,
-      'data' => $this->getRequestData()
+      'format' => $format
     )), false);
   }
 
+  /**
+   * Set data
+   *
+   * @param  array $data
+   */
   public function setData($data)
   {
-    if (is_string($data))
-    {
-      $data = json_decode($data);
-    }
-
     $this->data = $data;
   }
 
+  /**
+   * Set user email
+   *
+   * @param  string $email
+   */
   public function setEmail($email)
   {
     $this->email = $email;
-  }
-
-  private function getRequestData($onlyOne = false)
-  {
-    return $this->data ? json_encode($onlyOne ? $this->data[0] : $this->data) : null;
   }
 
   private static function response($response)
