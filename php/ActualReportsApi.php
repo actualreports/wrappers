@@ -26,7 +26,7 @@ class ActualReportsException extends ErrorException {}
 
 class ActualReportsApi
 {
-  protected $url = 'https://dev.actualreports.com/api';
+  protected $url = 'https://app.actualreports.com/api';
   protected $version = 'v2';
   protected $apiKey;
   protected $privateKey;
@@ -105,18 +105,26 @@ class ActualReportsApi
   }
 
   /**
-   * Set data
+   * Set data as an array or json string
    *
-   * @param array $data
+   * @param array|string $data
    */
   public function setData($data)
   {
+    if (is_string($data))
+    {
+      $data = json_decode($data);
+      if (is_null($data))
+      {
+        throw new ActualReportsException('Data is not valid json string');
+      }
+    }
     $this->data = $data;
   }
 
   /**
    * Set version
-   * @param string $version v1 or v2
+   * @param string $version
    */
   public function setVersion($version)
   {
