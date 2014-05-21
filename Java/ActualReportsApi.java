@@ -37,7 +37,7 @@ import javax.net.ssl.SSLSession;
 public class ActualReportsApi {
 
 	final String USER_AGENT = "actualreports-php/2.0.0";
-	public String url = "https://dev.actualreports.com/api";
+	public String url = "https://app.actualreports.com/api";
 	public String version = "v2";
 	public String apiKey;
 	public String privateKey;
@@ -55,7 +55,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Set apikey value
-	 * 
+	 *
 	 * @param apiKey
 	 */
 	public void setApiKey(String apiKey) {
@@ -64,7 +64,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Set privatekey value
-	 * 
+	 *
 	 * @param privateKey
 	 */
 	public void setPrivateKey(String privateKey) {
@@ -73,7 +73,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Set api endpoint url
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(String url) {
@@ -82,7 +82,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Set user email
-	 * 
+	 *
 	 * @param email
 	 */
 	public void setEmail(String email) {
@@ -91,10 +91,10 @@ public class ActualReportsApi {
 
 	/**
 	 * Set version
-	 * 
+	 *
 	 * @param version
 	 *            v1 or v2
-	 * 
+	 *
 	 */
 	public void setVersion(String version) {
 		this.version = version;
@@ -102,9 +102,9 @@ public class ActualReportsApi {
 
 	/**
 	 * Makes request and returns the map of content, headers and responseCode
-	 * 
+	 *
 	 * @param
-	 * 
+	 *
 	 * @Return map["content"] --> content in bytecode map["headers"] --> map
 	 *         of headers map["responseCode"] --> http response code
 	 */
@@ -114,9 +114,9 @@ public class ActualReportsApi {
 
 	/**
 	 * Makes request and returns the map of content, headers and responseCode
-	 * 
+	 *
 	 * @param
-	 * 
+	 *
 	 * @Return map["content"] --> content in bytecode map["headers"] --> map
 	 *         of headers map["responseCode"] --> http response code
 	 */
@@ -126,19 +126,19 @@ public class ActualReportsApi {
 
 	/**
 	 * Makes request and returns the map of content, headers and responseCode
-	 * 
+	 *
 	 * @param
-	 * 
+	 *
 	 * @return map["content"] --> content in bytecode map["headers"] --> map
 	 *         of headers map["responseCode"] --> http response code
 	 */
 	public Map<String, Object> request(String resource, Map<String, ?> params,
 			String method) {
-		
+
 		String url = this.createUrl(resource);
 		Map<String, Object> result = new HashMap<String, Object>();
 		String query = "";
-						
+
 		if (params != null && !params.isEmpty())
 			query = crateQueryString(params);
 
@@ -213,7 +213,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Returns url for editor redirect
-	 * 
+	 *
 	 * @return string
 	 */
 
@@ -278,7 +278,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Converts map to query
-	 * 
+	 *
 	 * @param querymap
 	 * @return queryString
 	 */
@@ -304,7 +304,7 @@ public class ActualReportsApi {
 
 	/**
 	 * Convert String to UTF-8
-	 * 
+	 *
 	 * @param s
 	 * @return string
 	 */

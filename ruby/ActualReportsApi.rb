@@ -31,7 +31,7 @@ class ActualReportsApi
 	USER_AGENT = 'actualreports-ruby/2.0.0'
 
 	def initialize(apiKey = nil, privateKey = nil)
-		@url = 'https://dev.actualreports.com/api'
+		@url = 'https://app.actualreports.com/api'
 		@version = 'v2'
 		@apiKey
 		@privateKey
