@@ -213,7 +213,6 @@
       {
         return ;
       }
-
       $.getJSON(this.options.endpoints.editor, {
         actual_reports_params: JSON.stringify(this.extraParams)
       }, $.proxy(function(data) {
@@ -235,6 +234,7 @@
         form.attr('action', data.url).submit();
         this.iframe.css('marginTop', '0px');
         this.showModal();
+        this.isEditorOpen = true;
       }, this));
     },
 
@@ -276,7 +276,10 @@
       this.iframe.attr('src', 'about:blank');
       this.overlay.fadeOut(200);
       this.modal.css('display', 'none');
-      this.loadTemplates(true);
+
+      // Refresh templates only when we used editor
+      this.isEditorOpen && this.loadTemplates(true);
+      this.isEditorOpen = false;
     },
 
     setExtraParams: function(params)

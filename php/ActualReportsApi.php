@@ -191,7 +191,13 @@ class ActualReportsApi
     return hash('sha256', $this->privateKey.$this->apiKey.strtolower(str_replace('/', '',$resource)).$this->email.$time);
   }
 
-  protected function createUrl($resource, $params = array())
+  /**
+   * Returns url for resource
+   *
+   * @param string $resource
+   * @param array $params
+   */
+  public function createUrl($resource, $params = array())
   {
     $time = time();
     $query = http_build_query(array_merge(array(

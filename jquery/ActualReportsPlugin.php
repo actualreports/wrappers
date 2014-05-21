@@ -65,7 +65,7 @@ class ActualReportsPlugin
 
   public function inline($params = array())
   {
-    $response = $this->output($_REQUEST['actual_reports_template'], $_REQUEST['actual_reports_format'], $params);
+    $response = $this->output($_REQUEST['actual_reports_template'], 'pdf', $params);
 
     header('Content-type: ', $response['meta']['content-type']);
     header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
@@ -83,13 +83,14 @@ class ActualReportsPlugin
 
   public function download($params = array())
   {
-    $response = $this->output($_REQUEST['actual_reports_template'], $_REQUEST['actual_reports_format'], $params);
+    $format = $_REQUEST['actual_reports_format'];
+    $response = $this->output($_REQUEST['actual_reports_template'], $format, $params);
     header('Content-type: ', $response['meta']['content-type']);
     header("Content-Description: File Transfer");
     header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 
-    header('Content-Disposition: attachment; filename="'.uniqid().'.pdf"');
+    header('Content-Disposition: attachment; filename="'.uniqid().'.'.$format.'"');
     header('Content-Transfer-Encoding: binary');
     die(base64_decode($response['response']));
   }
